@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="A community Eaglercraft 1.12.2 server powered by Paper.">
+  <title>Eaglercraft 1.12.2 Server</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Eaglercraft home">
+      <span class="brand-mark">◆</span>
+      <span>Eaglercraft <strong>1.12.2</strong></span>
+    </a>
+    <a class="button button-small button-ghost" href="#connect">How to connect</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="dot"></span> Paper-powered survival</p>
+        <h1>Your next blocky adventure starts here.</h1>
+        <p class="lede">Join our Eaglercraft-compatible Minecraft 1.12.2 server from your browser. No launcher required.</p>
+        <div class="actions">
+          <a id="play-button" class="button button-primary" href="#play">Play in browser <span>→</span></a>
+          <a class="button button-ghost" href="#connect">Server details</a>
+        </div>
+        <p id="play-note" class="subtle">Configure <code>PLAY_URL</code> in <code>config.js</code> to enable browser play.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="sun"></div><div class="mountain mountain-back"></div><div class="mountain mountain-front"></div>
+        <div class="grass"></div><div class="pixel pixel-one"></div><div class="pixel pixel-two"></div><div class="pixel pixel-three"></div>
+      </div>
+    </section>
+
+    <section id="connect" class="panel-grid">
+      <article class="card">
+        <p class="card-label">Server address</p>
+        <div class="address-row"><code id="server-address">localhost:25565</code><button id="copy-address" class="copy-button" type="button">Copy</button></div>
+        <p class="subtle">Use this address in the multiplayer screen of your authorized Eaglercraft 1.12 client.</p>
+      </article>
+      <article class="card">
+        <p class="card-label">Version</p>
+        <h2>Eaglercraft 1.12</h2>
+        <p class="subtle">Compatible with Paper 1.12.2 and the configured Eaglercraft protocol plugins.</p>
+      </article>
+      <article class="card">
+        <p class="card-label">Getting started</p>
+        <ol class="steps"><li>Open your authorized Eaglercraft client.</li><li>Choose <strong>Multiplayer</strong>.</li><li>Add the address above and connect.</li></ol>
+      </article>
+    </section>
+
+    <section id="play" class="play-card">
+      <div><p class="eyebrow">Browser client</p><h2>Ready to play?</h2><p class="subtle">Set the URL of your authorized Eaglercraft client in <code>website/config.js</code>, then use the button below.</p></div>
+      <a id="play-button-bottom" class="button button-primary" href="#">Open client <span>↗</span></a>
+    </section>
+  </main>
+
+  <footer><span>© <span id="year"></span> Eaglercraft server</span><span>Powered by Paper 1.12.2</span></footer>
+  <script src="config.js"></script>
+  <script>
+    const config = window.EAGLERCRAFT_CONFIG || {};
+    const address = config.SERVER_ADDRESS || 'localhost:25565';
+    const playUrl = config.PLAY_URL || '';
+    document.querySelector('#server-address').textContent = address;
+    document.querySelector('#year').textContent = new Date().getFullYear();
+    for (const id of ['play-button', 'play-button-bottom']) {
+      const link = document.querySelector('#' + id);
+      if (playUrl) { link.href = playUrl; link.target = '_blank'; link.rel = 'noopener'; }
+      else { link.href = '#play'; link.addEventListener('click', e => { e.preventDefault(); document.querySelector('#play-note').classList.add('notice'); }); }
+    }
+    document.querySelector('#copy-address').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(address); document.querySelector('#copy-address').textContent = 'Copied!'; setTimeout(() => document.querySelector('#copy-address').textContent = 'Copy', 1400); } catch (_) {}
+    });
+  </script>
+</body>
+</html>
